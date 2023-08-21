@@ -39,8 +39,14 @@ function SignUpPage() {
       });
 
       setSuccessMessage('User created successfully');
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 3000);
     } catch (error) {
       setErrorMessage('Error creating user');
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
     }
   };
 

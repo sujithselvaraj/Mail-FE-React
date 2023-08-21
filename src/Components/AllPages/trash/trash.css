@@ -3,14 +3,17 @@
   .Viewing-Mail {
     height: 88vh;
     flex: 1;
-    padding: 20px;
+
+
+    margin: auto;
     background-color: #f9f9f9;
     border-left: 1px solid #ddd;
+    overflow-y: auto;
   }
   
   .trash {
     display: flex;
-    align-items: baseline;
+    /* align-items: baseline; */
     padding: 5px;
     padding-left: 200px;
     padding-top: 50px;
@@ -38,6 +41,16 @@
     font-weight: bold;
   }
 
+    .subject,.sender{
+    margin: 0;
+    font-size: 16px;
+    white-space: nowrap;       
+    overflow: hidden;         
+    text-overflow: ellipsis;  
+    max-width: 180px;
+  }
+  
+
    .div {
     display: flex;
     flex-direction: row;
@@ -54,5 +67,33 @@
     width: 50%; 
     border-right: 1px solid #ddd;
     padding: 0px;
-    overflow-y: auto; 
+    overflow-y:auto; 
   }
+
+  .pagination {
+    display: flex;
+
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination button {
+    background-color: #007bff;
+
+
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+  .pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .mail-content-html {
+    margin-top: 10px;
+    white-space: pre-line;
+  }
+  

@@ -33,7 +33,10 @@ function LoginPage() {
 
       navigate("/inbox")
     } catch (error) {
-      setErrorMessage('Invalid username or password');
+      setErrorMessage('Invalid username or password Check it!');
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
     }
   };
 
@@ -44,11 +47,11 @@ function LoginPage() {
       <form onSubmit={handleLogin}  className='login'>
         <div >
           <label>Email-Id:</label>
-          <input type="text" value={username} onChange={handleUsernameChange} placeholder='Email-Id'/>
+          <input type="text" value={username} onChange={handleUsernameChange} placeholder='Email-Id' required/>
         </div>
         <div>
           <label>Password:</label>
-          <input type="password" value={password} onChange={handlePasswordChange} placeholder='Password'/>
+          <input type="password" value={password} onChange={handlePasswordChange} placeholder='Password' required/>
         </div>
         <button type="submit">Login</button>
         <p>Don't have an account?</p>

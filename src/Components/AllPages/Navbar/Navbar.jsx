@@ -24,7 +24,7 @@ function Navbar() {
         <h2 onClick={handleClick}>Hit Mail</h2>
        
         <input type="text" placeholder="Search..." className="SearchBar" />
-     
+    
       </div>
       <div className="Navbar-right">
         <button onClick={handleLogout} className="LogoutButton">Logout</button>

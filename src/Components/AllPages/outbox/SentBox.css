@@ -1,126 +1,9 @@
-/* 
-  
-.SentBox {
-    display: flex;
-  }
-  
-  .SentBox-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-  }
-  
-  .SentBox h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  
-  .SentBox button {
-    background-color: #007bff;
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .SentBox button:hover {
-    background-color: #0056b3;
-  }
-  
-  .SentBox ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .SentBox li {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .SentBox li p {
-    margin: 0;
-    font-size: 16px;
-  }
-  
-  .Mail-view {
-    margin-top: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 20px;
-    background-color: #f9f9f9;
-  }
-  
-  .Mail-view h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-   */
-/* 
-.SentBox {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    margin-top: 250px;
-  }
-  
-  .SentBox ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .SentBox li {
-    /* margin-bottom: 20px; */
-    /*border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-  }
-  
-  .SentBox li:hover {
-    background-color: #f7f7f7;
-    transform: translateY(-2px);
-  }
-  
-  .SentBox li div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .SentBox li p {
-    margin: 0;
-    font-size: 16px;
-  }
-  
-  .Mail-view {
-    margin-top: 20px;
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 5px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  } */
-  
-  
 
-  .Viewing-Mail {
-    height: 88vh;
-    flex: 1;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-left: 1px solid #ddd;
-  }
   
   .SentBox {
+    height: 90vh;
     display: flex;
-    align-items: baseline;
+    /* align-items: baseline; */
     padding: 5px;
     padding-left: 200px;
     padding-top: 50px;
@@ -131,6 +14,16 @@
     padding: 0;
     margin: 0;
   }
+  
+  .subject ,.recipients{
+    margin: 0;
+    font-size: 16px;
+    white-space: nowrap;       
+    overflow: hidden;         
+    text-overflow: ellipsis;  
+    max-width: 220px;
+  }
+  
 
   .SentBox li {
     border: 1px solid #ddd;
@@ -151,8 +44,8 @@
    .div {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-  }
+    justify-content: space-between; 
+  } 
 
   .SentBox li p {
     margin: 0;
@@ -160,31 +53,82 @@
   }
 
 .Mail-List {
-
+    height: 90vh;
     width: 50%; 
     border-right: 1px solid #ddd;
     padding: 0px;
     overflow-y: auto; 
+    position: relative;
   }
 
-  .pagination {
-    display: flex;
-    
-    justify-content: center;
-    margin-top: 20px;
+  .button .pagination {
+    display: inline-block; /* Display buttons in a row */
   }
   
-  .pagination button {
+  .button button {
     background-color: #007bff;
     color: #fff;
     border: none;
     padding: 5px 10px;
     margin: 0 5px;
     cursor: pointer;
+
+
   }
+  
+  .button{
+    position: absolute;
+
+
+    bottom: 1px; /* Adjust the bottom distance as needed */
+    left: 50%; /* Center the buttons horizontally */
+    transform: translateX(-50%); /* Center the buttons horizontally */
+    text-align: center; 
+  }
+
+  
   
   .pagination button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+  
+
+  .Viewing-Mail {
+    display: flex;
+    flex-direction: column;
+    height: 88vh;
+
+    background-color: #f9f9f9;
+    border-left: 1px solid #ddd;
+  }
+  
+  .Mail-Content {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .Mail-Content h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .Mail-Content p {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+  
+  .Mail-Content hr {
+    margin: 10px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+  }
+  
+  .mail-content-html {
+    margin-top: 10px;
+    white-space: pre-line;
   }
   

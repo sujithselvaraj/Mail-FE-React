@@ -13,6 +13,15 @@ function Trash() {
   const [selectedMailId, setSelectedMailId] = useState(null);
 
 
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const sentMailsPerPage = 16; 
+  const indexOfLastDeletedMail = currentPage * sentMailsPerPage;
+  const indexOfFirstDeletedMail = indexOfLastDeletedMail - sentMailsPerPage;
+  const currentDeletedMails = deletedMails.slice(indexOfFirstDeletedMail, indexOfLastDeletedMail);
+    
+
+
   useEffect(() => {
     fetchDeletedMails();
   }, []);
@@ -61,31 +70,49 @@ function Trash() {
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <ul>
-        {deletedMails.map((mail) => (
+      {currentDeletedMails.map((mail) => (
           <li key={mail.id} className={mail.id === selectedMailId ? 'selected-mail' : ''}
           onClick={() => handleViewMail(mail.id)}>
             <div className='div'>
-              <p>{mail.sender}</p>
-              <p>{mail.subject}</p>
+              <p className='sender'>{mail.sender}</p>
+              <p className='subject'>{mail.subject}</p>
               <p>{format(new Date(mail.time), 'MMM d')}</p>
             </div>
           </li>
         ))}
       </ul>
+      <div className="button">
+      <div className="pagination">
+  <button
+    onClick={() => setCurrentPage(currentPage - 1)}
+    disabled={currentPage === 1}
+  >
+    Previous
+  </button>
+  <button
+    onClick={() => setCurrentPage(currentPage + 1)}
+    disabled={indexOfLastDeletedMail >= deletedMails.length}
+  >
+    Next
+  </button>
+  </div>
+</div>
           </div>
           <div className='Viewing-Mail'>
       {selectedMail ? (
-        <div >
-          <h2>Viewing Mail</h2>
-          <p>Recipients: {selectedMail.recipients}</p>
-          <p>Subject: {selectedMail.subject}</p>
-          <p>Content: {selectedMail.content}</p>
-          {/* Add other mail details as needed */}
+        <div className='Mail-Content'>
+          <h3>{selectedMail.subject}</h3>
+          <p>Sender : {selectedMail.sender}</p>
+          <hr />
+          <div
+      dangerouslySetInnerHTML={{ __html: selectedMail.content }}
+      className='mail-content-html'
+    ></div>
         </div>
       ) : (
         <p>Select a mail to view</p>
       )}
-      </div>
+    </div>
 
     </div>
   );

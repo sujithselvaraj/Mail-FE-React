@@ -3,6 +3,8 @@ import axios from 'axios';
 import LeftSideBar from '../../LeftSideRouteBar/LeftSideBar';
 import './SentBox.css'
 import Navbar from '../Navbar/Navbar';
+import { format } from 'date-fns';
+
 function SentBox() {
   const [sentMails, setSentMails] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,6 +20,7 @@ function SentBox() {
   const currentSentMails = sentMails.slice(indexOfFirstSentMail, indexOfLastSentMail);
     
 
+  
 
   useEffect(() => {
     fetchSentMails();
@@ -51,6 +54,7 @@ function SentBox() {
 
       setSelectedMail(response.data);
       setSelectedMailId(id); 
+    
 
     } catch (error) {
       console.error('Error fetching mail details:', error);
@@ -67,12 +71,13 @@ function SentBox() {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <ul>
       {currentSentMails.map((mail) => (
-        // {sentMails.map((mail) => (
           <li key={mail.id} className={mail.id === selectedMailId ? 'selected-mail' : ''}
           onClick={() => handleViewMail(mail.id)}>
             <div className='div'>
-            <p>{mail.recipients}</p>
-            <p>{mail.subject}</p>
+            <p className='recipients'>{mail.recipients}</p>
+            <p className='subject'>{mail.subject}</p>
+            <p>{format(new Date(mail.time), 'MMM d')}</p>
+
             </div>
            
           </li>
@@ -83,6 +88,7 @@ function SentBox() {
         
        
       </ul>
+      <div className="button">
       <div className="pagination">
   <button
     onClick={() => setCurrentPage(currentPage - 1)}
@@ -97,24 +103,26 @@ function SentBox() {
     Next
   </button>
 </div>
+</div>
       </div>
       
       
 
-
-
-      <div className='Viewing-Mail'>
+<div className='Viewing-Mail'>
       {selectedMail ? (
-        <div >
-          <h2>Viewing Mail</h2>
-          <p>Recipients: {selectedMail.recipients}</p>
-          <p>Subject: {selectedMail.subject}</p>
-          <p>Content: {selectedMail.content}</p>
+        <div className='Mail-Content'>
+          <h3>{selectedMail.subject}</h3>
+          <p>Recipients: {selectedMail.recipients.join(', ')}</p>
+          <hr />
+          <div
+      dangerouslySetInnerHTML={{ __html: selectedMail.content }}
+      className='mail-content-html'
+    ></div>
         </div>
       ) : (
         <p>Select a mail to view</p>
       )}
-      </div>
+    </div>
     </div>
   );
 }
