@@ -35,10 +35,13 @@ function SentBox() {
         }
       });
 
-      setSentMails(response.data.data);
+      setSentMails(response.data.data.reverse());
       setLoading(false);
     } catch (error) {
       setError('Error fetching sent mails.');
+      setTimeout(() => {
+        setError('');
+      }, 3000);
       setLoading(false);
     }
   };
@@ -59,6 +62,9 @@ function SentBox() {
     } catch (error) {
       console.error('Error fetching mail details:', error);
       setError('Error fetching mail details.');
+      setTimeout(() => {
+        setError('');
+      }, 3000);
     }
   };
 

@@ -35,10 +35,13 @@ function Trash() {
         }
       });
 
-      setDeletedMails(response.data.data);
+      setDeletedMails(response.data.data.reverse());
       setLoading(false);
     } catch (error) {
       setError('Error fetching deleted mails.');
+      setTimeout(() => {
+        setError('');
+      }, 3000);
       setLoading(false);
     }
   };
@@ -58,6 +61,9 @@ function Trash() {
     } catch (error) {
       console.error('Error fetching mail details:', error);
       setError('Error fetching mail details.');
+      setTimeout(() => {
+        setError('');
+      }, 3000);
     }
   };
 

@@ -42,6 +42,9 @@ function Inbox() {
       setLoading(false);
     } catch (error) {
       setError('Error fetching received mails.');
+      setTimeout(() => {
+        setError('');
+      }, 3000);
       setLoading(false);
     }
   };

@@ -40,11 +40,17 @@ function ComposeMail() {
       });
 
       setSuccessMessage('Mail sent successfully');
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 3000);
       setRecipients('');
       setSubject('');
       setContent('');
     } catch (error) {
-      setErrorMessage('Error sending mail');
+      setErrorMessage('Error sending mail ,Enter an valid recipient!');
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
     }
   };
 
@@ -73,8 +79,8 @@ function ComposeMail() {
         </div>
         </div>
         <button type="submit" className='review-btn'>Send</button><br/>
-        {successMessage && <p style={{ color: 'green' ,padding:"50px"}}>{successMessage}</p>}
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+        {successMessage && <p style={{ color: 'green' ,padding:"60px"}}>{successMessage}</p>}
+      {errorMessage && <p style={{ color: 'red' ,padding:"60px"}}>{errorMessage}</p>}
       
       </form>
       </div>
