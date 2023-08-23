@@ -15,7 +15,7 @@ function Trash() {
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const sentMailsPerPage = 16; 
+  const sentMailsPerPage = 10; 
   const indexOfLastDeletedMail = currentPage * sentMailsPerPage;
   const indexOfFirstDeletedMail = indexOfLastDeletedMail - sentMailsPerPage;
   const currentDeletedMails = deletedMails.slice(indexOfFirstDeletedMail, indexOfLastDeletedMail);
@@ -29,7 +29,7 @@ function Trash() {
   const fetchDeletedMails = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:8080/mails/deleted-mails', {
+      const response = await axios.get('http://localhost:8083/mails/deleted-mails', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -48,8 +48,9 @@ function Trash() {
 
   const handleViewMail = async (id) => {
     try {
+      console.log(id);
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:8080/mails/${id}`, {
+      const response = await axios.get(`http://localhost:8083/mails/view/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -67,7 +68,67 @@ function Trash() {
     }
   };
 
-
+  function generateAvatar(sender) {
+    if (!sender) return ''; // Handle cases with no sender
+  
+    const initials = sender.charAt(0).toUpperCase(); // Get the first letter and make it uppercase
+  
+    // Check if a color is already set for this user in localStorage
+    let userBackgroundColor = localStorage.getItem(`userBackgroundColor_${sender}`);
+  
+    // If no color is set, generate a random color and store it in localStorage
+    if (!userBackgroundColor) {
+      userBackgroundColor = getRandomColor();
+      localStorage.setItem(`userBackgroundColor_${sender}`, userBackgroundColor);
+    }
+  
+    // Determine the text color based on background color
+    const textColor = getTextColor(userBackgroundColor);
+  
+    // Define a style for the avatar
+    const avatarStyle = {
+      backgroundColor: userBackgroundColor,
+      color: textColor,
+      borderRadius: '50%',
+      width: '40px', // Adjust the size as needed
+      height: '40px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: '18px', // Adjust the font size as needed
+    };
+  
+    return (
+      <div style={avatarStyle}>
+        {initials}
+      </div>
+    );
+  }
+  
+  function getRandomColor() {
+    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  }
+  
+  function getTextColor(bgColor) {
+    const colorPairs = [
+      { background: '#008080', text: '#FFFFFF' }, // Teal
+      { background: '#4169E1', text: '#FFFFFF' }, // Royal Blue
+      { background: '#DC143C', text: '#FFFFFF' }, // Crimson
+      { background: '#708090', text: '#FFFFFF' }, // Slate Gray
+      { background: '#DAA520', text: '#000000' }, // Goldenrod
+      { background: '#9932CC', text: '#FFFFFF' }, // Dark Orchid
+      { background: '#6B8E23', text: '#FFFFFF' }, // Olive Drab
+      { background: '#A0522D', text: '#FFFFFF' }, // Sienna
+      { background: '#9370DB', text: '#000000' }, // Medium Purple
+      { background: '#008B8B', text: '#FFFFFF' }, // Dark Cyan
+    ];
+  
+    // Find a matching text color based on the background color
+    const matchingPair = colorPairs.find(pair => pair.background === bgColor);
+  
+    // If no matching pair is found, use a default text color
+    return matchingPair ? matchingPair.text : '#000000';
+  }
   return (
     <div className="trash">
       <Navbar/>
@@ -79,10 +140,19 @@ function Trash() {
       {currentDeletedMails.map((mail) => (
           <li key={mail.id} className={mail.id === selectedMailId ? 'selected-mail' : ''}
           onClick={() => handleViewMail(mail.id)}>
-            <div className='div'>
+
+             <div className="mail-f">
+           <div className="avatar">
+            {generateAvatar(mail.sender)}
+              <div className="mail">
               <p className='sender'>{mail.sender}</p>
               <p className='subject'>{mail.subject}</p>
-              <p>{format(new Date(mail.time), 'MMM d')}</p>
+            </div>
+            </div>
+            <div className="delete">
+            <p>{format(new Date(mail.time), 'MMM d')}</p>
+
+            </div>
             </div>
           </li>
         ))}
@@ -108,7 +178,18 @@ function Trash() {
       {selectedMail ? (
         <div className='Mail-Content'>
           <h3>{selectedMail.subject}</h3>
-          <p>Sender : {selectedMail.sender}</p>
+
+          <div className="out">
+          {generateAvatar(selectedMail.sender)}
+            <div className="in">
+          <p className='view'>From : {selectedMail.sender}</p>
+          <p className='view'>To : {selectedMail.recipients}</p>
+          </div>
+          <div className="mail-view-time">
+          <p>{format(new Date(selectedMail.deletedAt), 'MMM d h:mm a')}</p>
+
+          </div>
+          </div>
           <hr />
           <div
       dangerouslySetInnerHTML={{ __html: selectedMail.content }}
@@ -116,7 +197,8 @@ function Trash() {
     ></div>
         </div>
       ) : (
-        <p>Select a mail to view</p>
+        
+        <h5 style={{padding:"15px"}}>Select a mail to view</h5>
       )}
     </div>
 

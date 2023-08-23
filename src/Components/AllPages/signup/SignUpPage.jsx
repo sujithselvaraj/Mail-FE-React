@@ -31,7 +31,7 @@ function SignUpPage() {
     event.preventDefault();
 
     try {
-      await axios.post('http://localhost:8080/users', {
+      await axios.post('http://localhost:8083/users', {
         firstName,
         lastName,
         email,
@@ -39,11 +39,15 @@ function SignUpPage() {
       });
 
       setSuccessMessage('User created successfully');
+      setFirstName('')
+      setLastName('')
+      setEmail('')
+      setPassword('')
       setTimeout(() => {
         setSuccessMessage('');
       }, 3000);
     } catch (error) {
-      setErrorMessage('Error creating user');
+      setErrorMessage('Email Already taken ,try different one');
       setTimeout(() => {
         setErrorMessage('');
       }, 3000);

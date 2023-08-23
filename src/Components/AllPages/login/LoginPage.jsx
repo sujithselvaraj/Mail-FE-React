@@ -23,7 +23,7 @@ function LoginPage() {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8080/mails/authenticate', {
+      const response = await axios.post('http://localhost:8083/mails/authenticate', {
         username,
         password
       });

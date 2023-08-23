@@ -14,7 +14,7 @@ function SentBox() {
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const sentMailsPerPage = 16; 
+  const sentMailsPerPage = 10; 
   const indexOfLastSentMail = currentPage * sentMailsPerPage;
   const indexOfFirstSentMail = indexOfLastSentMail - sentMailsPerPage;
   const currentSentMails = sentMails.slice(indexOfFirstSentMail, indexOfLastSentMail);
@@ -29,7 +29,7 @@ function SentBox() {
   const fetchSentMails = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:8080/mails/get-send-emails', {
+      const response = await axios.get('http://localhost:8083/mails/get-send-emails', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -49,7 +49,7 @@ function SentBox() {
   const handleViewMail = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:8080/mails/${id}`, {
+      const response = await axios.get(`http://localhost:8083/mails/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -67,7 +67,67 @@ function SentBox() {
       }, 3000);
     }
   };
-
+  function generateAvatar(recipients) {
+    if (!recipients) return ''; // Handle cases with no sender
+  
+    const initials = recipients[0].charAt(0).toUpperCase(); // Get the first letter and make it uppercase
+  
+    // Check if a color is already set for this user in localStorage
+    let userBackgroundColor = localStorage.getItem(`userBackgroundColor_${recipients}`);
+  
+    // If no color is set, generate a random color and store it in localStorage
+    if (!userBackgroundColor) {
+      userBackgroundColor = getRandomColor();
+      localStorage.setItem(`userBackgroundColor_${recipients}`, userBackgroundColor);
+    }
+  
+    // Determine the text color based on background color
+    const textColor = getTextColor(userBackgroundColor);
+  
+    // Define a style for the avatar
+    const avatarStyle = {
+      backgroundColor: userBackgroundColor,
+      color: textColor,
+      borderRadius: '50%',
+      width: '40px', // Adjust the size as needed
+      height: '40px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: '18px', // Adjust the font size as needed
+    };
+  
+    return (
+      <div style={avatarStyle}>
+        {initials}
+      </div>
+    );
+  }
+  
+  function getRandomColor() {
+    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  }
+  
+  function getTextColor(bgColor) {
+    const colorPairs = [
+      { background: '#008080', text: '#FFFFFF' }, // Teal
+      { background: '#4169E1', text: '#FFFFFF' }, // Royal Blue
+      { background: '#DC143C', text: '#FFFFFF' }, // Crimson
+      { background: '#708090', text: '#FFFFFF' }, // Slate Gray
+      { background: '#DAA520', text: '#000000' }, // Goldenrod
+      { background: '#9932CC', text: '#FFFFFF' }, // Dark Orchid
+      { background: '#6B8E23', text: '#FFFFFF' }, // Olive Drab
+      { background: '#A0522D', text: '#FFFFFF' }, // Sienna
+      { background: '#9370DB', text: '#000000' }, // Medium Purple
+      { background: '#008B8B', text: '#FFFFFF' }, // Dark Cyan
+    ];
+  
+    // Find a matching text color based on the background color
+    const matchingPair = colorPairs.find(pair => pair.background === bgColor);
+  
+    // If no matching pair is found, use a default text color
+    return matchingPair ? matchingPair.text : '#000000';
+  }
   return (
     <div className='SentBox'>
       <Navbar/>
@@ -79,11 +139,18 @@ function SentBox() {
       {currentSentMails.map((mail) => (
           <li key={mail.id} className={mail.id === selectedMailId ? 'selected-mail' : ''}
           onClick={() => handleViewMail(mail.id)}>
-            <div className='div'>
-            <p className='recipients'>{mail.recipients}</p>
+              <div className="mail-f">
+           <div className="avatar">
+            {generateAvatar(mail.recipients)}
+              <div className="mail">
+            <p className='sender'>{mail.recipients}</p>
             <p className='subject'>{mail.subject}</p>
+        </div>
+            </div>
+            <div className="delete">
             <p>{format(new Date(mail.time), 'MMM d')}</p>
 
+            </div>
             </div>
            
           </li>
@@ -117,8 +184,19 @@ function SentBox() {
 <div className='Viewing-Mail'>
       {selectedMail ? (
         <div className='Mail-Content'>
-          <h3>{selectedMail.subject}</h3>
-          <p>Recipients: {selectedMail.recipients.join(', ')}</p>
+          <h3>{selectedMail.recipients}</h3>
+
+        <div className="out">
+        {generateAvatar(selectedMail.recipients)}
+            <div className="in">
+              <p className="view">From : {selectedMail.sender} </p>
+          <p className="view">To : {selectedMail.recipients.join(', ')}</p>
+          </div>
+          <div className="mail-view-time">
+          <p>{format(new Date(selectedMail.time), 'MMM d h:mm a')}</p>
+
+          </div>
+          </div>
           <hr />
           <div
       dangerouslySetInnerHTML={{ __html: selectedMail.content }}
@@ -126,7 +204,7 @@ function SentBox() {
     ></div>
         </div>
       ) : (
-        <p>Select a mail to view</p>
+        <h5 style={{padding:"15px"}}>Select a mail to view</h5>
       )}
     </div>
     </div>

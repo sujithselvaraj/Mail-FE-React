@@ -3,7 +3,7 @@ import axios from 'axios';
 import './ComposeMail.css'
 import LeftSideBar from '../../LeftSideRouteBar/LeftSideBar';
 import Navbar from '../Navbar/Navbar';
-import Background from '/Users/grootan/Downloads/hit-mail/src/assests/Background.svg'
+import Background from '../../../assests/Background.svg'
 function ComposeMail() {
   const [recipients, setRecipients] = useState('');
   const [subject, setSubject] = useState('');
@@ -15,12 +15,16 @@ function ComposeMail() {
     setRecipients(event.target.value);
   };
 
-  const handleSubjectChange = (event) => {
-    setSubject(event.target.value);
+  const handleSubjectChange = (e) => {
+    const inputValue = e.target.value;
+    const capitalizedSubject = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
+    setSubject(capitalizedSubject);
   };
 
-  const handleContentChange = (event) => {
-    setContent(event.target.value);
+  const handleContentChange = (e) => {
+    const inputValue = e.target.value;
+    const capitalizedSubject = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
+    setContent(capitalizedSubject);
   };
 
   const handleComposeMail = async (event) => {
@@ -29,7 +33,7 @@ function ComposeMail() {
     try {
       const token = localStorage.getItem('token');
       console.log(token)
-        await axios.post('http://localhost:8080/mails', {
+        await axios.post('http://localhost:8083/mails', {
         recipients: recipients.split(','),
         subject,
         content

@@ -1,10 +1,10 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import './LeftSideBar.css'
-import sent from '/Users/grootan/Downloads/hit-mail/src/assests/sent.svg';
-import inbox from '/Users/grootan/Downloads/hit-mail/src/assests/inbox.svg';
-import trash from '/Users/grootan/Downloads/hit-mail/src/assests/trash.svg';
-import compose from '/Users/grootan/Downloads/hit-mail/src/assests/compose.svg';
+import sent from '../../assests/sent.svg';
+import inbox from '../../assests/inbox.svg';
+import trash from '../../assests/trash.svg';
+import compose from '../../assests/compose.svg';
 const LeftSideBar = () => {
   return (
     <div className='left-sidebar'>
