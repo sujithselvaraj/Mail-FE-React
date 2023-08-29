@@ -33,7 +33,7 @@ function ComposeMail() {
     try {
       const token = localStorage.getItem('token');
       console.log(token)
-        await axios.post('http://localhost:8083/mails', {
+        await axios.post('https://localhost/mails', {
         recipients: recipients.split(','),
         subject,
         content

@@ -29,7 +29,7 @@ function SentBox() {
   const fetchSentMails = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:8083/mails/get-send-emails', {
+      const response = await axios.get('https://localhost/mails/get-send-emails', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -49,7 +49,7 @@ function SentBox() {
   const handleViewMail = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:8083/mails/${id}`, {
+      const response = await axios.get(`https://localhost:8080/mails/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

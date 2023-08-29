@@ -29,7 +29,7 @@ function Trash() {
   const fetchDeletedMails = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:8083/mails/deleted-mails', {
+      const response = await axios.get('https://localhost/mails/deleted-mails', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -50,7 +50,7 @@ function Trash() {
     try {
       console.log(id);
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:8083/mails/view/${id}`, {
+      const response = await axios.get(`https://localhost/mails/view/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

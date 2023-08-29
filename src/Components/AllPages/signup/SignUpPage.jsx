@@ -31,7 +31,7 @@ function SignUpPage() {
     event.preventDefault();
 
     try {
-      await axios.post('http://localhost:8083/users', {
+      await axios.post('https://localhost/mails/users', {
         firstName,
         lastName,
         email,

@@ -12,6 +12,9 @@ root.render(
 
 
 );
+if (window.location.protocol === 'http:' && process.env.NODE_ENV === 'production') {
+  window.location.href = window.location.href.replace(/^http:/, 'https:');
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

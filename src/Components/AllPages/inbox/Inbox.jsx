@@ -90,7 +90,7 @@ function Inbox() {
   const fetchReceivedMails = async () => {
     try {
       const token = localStorage.getItem('token'); 
-      const response = await axios.get('http://localhost:8083/mails/received-mails', {
+      const response = await axios.get('https://localhost/mails/received-mails', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -111,7 +111,7 @@ function Inbox() {
     try {
       const token = localStorage.getItem('token');
       console.log(id);
-      const response = await axios.get(`http://localhost:8083/mails/${id}`, {
+      const response = await axios.get(`https://localhost/mails/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -128,7 +128,7 @@ function Inbox() {
     try {
       console.log(id);
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:8083/mails/delete/${id}`, {
+      await axios.delete(`https://localhost/mails/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
